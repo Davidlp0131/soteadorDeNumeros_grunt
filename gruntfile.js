@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
-    grunt.initConfig({ //configurando os modulos
+    grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         less: {
             development: {
@@ -9,7 +9,7 @@ module.exports = function(grunt) {
             },
             production: {
                 options: {
-                    compress: true
+                    compress: true,
                 },
                 files: {
                     'dist/styles/main.min.css': 'src/styles/main.less'
@@ -34,7 +34,6 @@ module.exports = function(grunt) {
                             match: 'ENDERECO_DO_CSS',
                             replacement: './styles/main.css'
                         },
-                        
                         {
                             match: 'ENDERECO_DO_JS',
                             replacement: '../src/scripts/main.js'
@@ -59,7 +58,7 @@ module.exports = function(grunt) {
                         },
                         {
                             match: 'ENDERECO_DO_JS',
-                            replacement: './src/scripts/main.min.js'
+                            replacement: './scripts/main.min.js'
                         }
                     ]
                 },
@@ -73,14 +72,13 @@ module.exports = function(grunt) {
                 ]
             }
         },
-        
         htmlmin: {
             dist: {
                 options: {
                     removeComments: true,
-                    collapseWhitespace: true,
+                    collapseWhitespace: true
                 },
-                files:{
+                files: {
                     'prebuild/index.html': 'src/index.html'
                 }
             }
@@ -88,22 +86,19 @@ module.exports = function(grunt) {
         clean: ['prebuild'],
         uglify: {
             target: {
-                files:  {
+                files: {
                     'dist/scripts/main.min.js': 'src/scripts/main.js'
                 }
             }
         }
-        
     })
-    
-//Carregando os modulos
+
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-replace');
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-
 
     grunt.registerTask('default', ['watch']);
     grunt.registerTask('build', ['less:production', 'htmlmin:dist', 'replace:dist', 'clean', 'uglify']);
